@@ -1,0 +1,6 @@
+### 1. 找出糖尿病病人（前 5 筆）
+GET http://localhost:8080/fhir/Condition?code=http://snomed.info/sct|44054006&_count=5
+
+### 2. 查某位病人的糖化血色素，新的排前面
+@patient = 5829
+GET http://localhost:8080/fhir/Observation?subject=Patient/{{patient}}&code=http://loinc.org|4548-4&_sort=-date
