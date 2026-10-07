@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: hapi
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  hapi:
+    image: hapiproject/hapi:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx4g"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/hapi
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
+
+volumes:
+  pgdata:
