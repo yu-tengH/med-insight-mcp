@@ -1,10 +1,52 @@
+'''uv run python -c "from server.fhir_server import get_lab_results; get_lab_results('5829')"
+cat logs/tool_calls.jsonl'''
 from mcp.server.mcpserver import MCPServer
 import httpx
+import inspect
+import json
+import time
+from datetime import datetime
+from functools import wraps
+from pathlib import Path
 
 FHIR_BASE = "http://localhost:8080/fhir"
 mcp = MCPServer("med-insight") # 建立一個 MCP Server，名字叫 med-insight
-@mcp.tool() # 這一行叫「裝飾器」，作用是告訴 MCP：「下面這個函式是一個工具，開放給 AI 使用」。少了這行，Claude 就看不到這個工具
+# @mcp.tool()  叫「裝飾器」，作用是告訴 MCP：「下面這個函式是一個工具，開放給 AI 使用」。少了這行，Claude 就看不到這個工具
 
+# 紀錄檔放在專案的 logs 資料夾
+LOG_FILE = Path(__file__).parent.parent / "logs" / "tool_calls.jsonl"
+
+
+def log_tool_call(func):
+    """包在工具外面，每次被呼叫都自動寫一筆紀錄。"""
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        record = {
+            "time": datetime.now().astimezone().isoformat(),
+            "tool": func.__name__,
+            "params": dict(inspect.signature(func).bind(*args, **kwargs).arguments),
+        }
+        try:
+            result = func(*args, **kwargs)
+            record["status"] = "ok"
+            record["result_count"] = len(result) if isinstance(result, list) else 1
+            return result
+        except Exception as e:
+            record["status"] = "error"
+            record["error"] = str(e)
+            raise
+        finally:
+            record["duration_ms"] = round((time.time() - start) * 1000)
+            LOG_FILE.parent.mkdir(exist_ok=True)
+            with open(LOG_FILE, "a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+    return wrapper
+
+@mcp.tool()
+@log_tool_call
 def get_lab_results(patient_id: str, loinc_code: str = "4548-4", limit: int = 3) -> list[dict]:
     # loinc_code: str = "4548-4"：選填，沒給就預設查糖化血色素
     # limit: int = 3：選填，沒給就預設只回傳 3 筆
@@ -40,6 +82,7 @@ def get_lab_results(patient_id: str, loinc_code: str = "4548-4", limit: int = 3)
 
 
 @mcp.tool()
+@log_tool_call
 def get_patient(patient_id: str) -> dict:
     """查詢病人的基本資料：姓名、性別、生日。
 
@@ -64,6 +107,7 @@ def get_patient(patient_id: str) -> dict:
 
 
 @mcp.tool()
+@log_tool_call
 def get_conditions(patient_id: str, active_only: bool = True) -> list[dict]:
     """查詢病人的診斷紀錄，依發病日期由新到舊排列。
 
@@ -98,6 +142,7 @@ def get_conditions(patient_id: str, active_only: bool = True) -> list[dict]:
 
 
 @mcp.tool()
+@log_tool_call
 def get_medications(patient_id: str, active_only: bool = True) -> list[dict]:
     """查詢病人的開藥紀錄，依開立日期由新到舊排列。
 
