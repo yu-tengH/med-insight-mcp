@@ -1,0 +1,10 @@
+[10/08/26 11:31:13] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[10/08/26 11:31:16] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
