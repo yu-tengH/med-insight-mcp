@@ -231,5 +231,59 @@ def get_medications(patient_id: str, active_only: bool = True) -> list[dict]:
     return results
 
 
+# 依臨床專家建議，糖尿病回診常看的檢驗項目（LOINC 代碼）
+DIABETES_PANEL = {
+    "糖化血色素 HbA1c": "4548-4",
+    "血糖（資料未標示空腹或飯後）": "2339-0",
+    "飯後兩小時血糖": "1521-4",
+    "尿素氮 BUN": "6299-2",
+    "肌酸酐 Creatinine": "38483-4",
+    "腎絲球過濾率 eGFR": "33914-3",
+    "總膽固醇": "2093-3",
+    "三酸甘油脂": "2571-8",
+    "低密度膽固醇 LDL": "18262-6",
+    "高密度膽固醇 HDL": "2085-9",
+    "血紅素 Hemoglobin": "718-7",
+}
+
+
+@mcp.tool()
+@log_tool_call
+def get_diabetes_panel(patient_id: str) -> list[dict]:
+    """一次查詢糖尿病回診常看的檢驗組合，每一項回傳最近一次結果。
+
+    包含：糖化血色素、血糖、飯後血糖、腎功能（BUN、Creatinine、eGFR）、
+    血脂（總膽固醇、三酸甘油脂、LDL、HDL）、血紅素。
+    資料庫沒有的項目會標示「查無紀錄」，不會省略。
+
+    Args:
+        patient_id: FHIR 病人 ID，例如 "5829"
+    """
+    check_patient(patient_id)
+    results = []
+    for item, code in DIABETES_PANEL.items():
+        resp = httpx.get(f"{FHIR_BASE}/Observation", params={
+            "subject": f"Patient/{patient_id}",
+            "code": f"http://loinc.org|{code}",
+            "_sort": "-date",
+            "_count": 1,
+        }, timeout=30)
+        resp.raise_for_status()
+        entries = resp.json().get("entry", [])
+        if not entries:
+            results.append({"item": item, "loinc": code, "status": "查無紀錄"})
+            continue
+        obs = entries[0]["resource"]
+        quantity = obs.get("valueQuantity", {})
+        results.append({
+            "item": item,
+            "loinc": code,
+            "status": "ok",
+            "date": obs.get("effectiveDateTime"),
+            "value": quantity.get("value"),
+            "unit": quantity.get("unit"),
+        })
+    return results
+
 if __name__ == "__main__":
     mcp.run()
