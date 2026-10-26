@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
+from datetime import date
 
 FHIR_BASE = "http://localhost:8080/fhir"
 mcp = MCPServer("med-insight") # 建立一個 MCP Server，名字叫 med-insight
@@ -45,8 +46,41 @@ def log_tool_call(func):
 
     return wrapper
 
+
+
+# FHIR 的 Patient 有一個欄位叫 active：
+# 沒寫或 true：一般病人
+# false：這筆病歷已不再使用，剛好對應副院長說的「封存」
+#「確認病人」
+def check_patient(patient_id: str) -> dict:
+    """確認病人存在且未封存，回傳病人資料；否則丟出清楚的錯誤訊息。"""
+    resp = httpx.get(f"{FHIR_BASE}/Patient/{patient_id}", timeout=30)
+    if resp.status_code in (404, 410):
+        raise ValueError(
+            f"查無病人 {patient_id} 的資料。可能是 ID 輸入錯誤，"
+            "或病歷已封存，請至院內系統確認。"
+        )
+    resp.raise_for_status()
+    patient = resp.json()
+    if patient.get("active") is False:
+        raise ValueError(
+            f"病人 {patient_id} 的病歷已封存，無法查詢。如需調閱，請依院內流程申請解除封存。"
+        )
+    return patient
+
+
+def calc_age(birth_date: str | None, deceased: str | None) -> int | None:
+    """依生日計算年齡；已過世的病人算到過世當天。"""
+    if not birth_date:
+        return None
+    born = date.fromisoformat(birth_date[:10])
+    end = date.fromisoformat(deceased[:10]) if deceased else date.today()
+    return end.year - born.year - ((end.month, end.day) < (born.month, born.day))
+
+
 @mcp.tool()
 @log_tool_call
+
 def get_lab_results(patient_id: str, loinc_code: str = "4548-4", limit: int = 3) -> list[dict]:
     # loinc_code: str = "4548-4"：選填，沒給就預設查糖化血色素
     # limit: int = 3：選填，沒給就預設只回傳 3 筆
@@ -58,6 +92,7 @@ def get_lab_results(patient_id: str, loinc_code: str = "4548-4", limit: int = 3)
         loinc_code: 檢驗項目的 LOINC 代碼，預設 4548-4（糖化血色素 HbA1c）
         limit: 最多回傳幾筆，預設 3 筆
     """
+    check_patient(patient_id)
     params = {
         "subject": f"Patient/{patient_id}",
         "code": f"http://loinc.org|{loinc_code}",
@@ -89,20 +124,23 @@ def get_patient(patient_id: str) -> dict:
     Args:
         patient_id: FHIR 病人 ID，例如 "5829"
     """
-    resp = httpx.get(f"{FHIR_BASE}/Patient/{patient_id}", timeout=30)
-    resp.raise_for_status()
-    patient = resp.json()
+    patient = check_patient(patient_id)
 
     # 一位病人可能有多個名字（例如婚前姓），優先取 use 為 official 的那一個
     names = patient.get("name", [])
     name = next((n for n in names if n.get("use") == "official"), names[0] if names else {})
     full_name = " ".join(name.get("given", []) + [name.get("family", "")]).strip()
 
+    deceased = patient.get("deceasedDateTime")
+    age = calc_age(patient.get("birthDate"), deceased)
     return {
         "id": patient.get("id"),
         "name": full_name or None,
         "gender": patient.get("gender"),
         "birth_date": patient.get("birthDate"),
+        "age": age,
+        "is_65_or_older": age is not None and age >= 65,
+        "deceased_date": deceased,
     }
 
 
@@ -115,6 +153,7 @@ def get_conditions(patient_id: str, active_only: bool = True) -> list[dict]:
         patient_id: FHIR 病人 ID，例如 "5829"
         active_only: 是否只回傳目前仍有效（active）的診斷，預設 True
     """
+    check_patient(patient_id)
     params = {
         "subject": f"Patient/{patient_id}",
         "_sort": "-onset-date",
@@ -150,6 +189,7 @@ def get_medications(patient_id: str, active_only: bool = True) -> list[dict]:
         patient_id: FHIR 病人 ID，例如 "5829"
         active_only: 是否只回傳目前仍有效（active）的處方，預設 True
     """
+    check_patient(patient_id)
     params = {
         "subject": f"Patient/{patient_id}",
         "_sort": "-authoredon",
