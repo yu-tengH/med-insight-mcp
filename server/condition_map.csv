@@ -1,0 +1,53 @@
+snomed_code,snomed_name,group,sensitive,icd10_code,icd10_name_zh,status
+44054006,Diabetes,A,N,E11.9,第二型糖尿病，無併發症,待查證
+302870006,Hypertriglyceridemia,A,N,E78.1,純高三酸甘油脂血症,待查證
+237602007,Metabolic syndrome X,A,N,E88.81,代謝症候群,待查證
+15777000,Prediabetes,A,N,R73.03,糖尿病前期,待查證
+271737000,Anemia,A,N,D64.9,貧血，未明示,待查證
+80394007,Hyperglycemia,A,N,R73.9,高血糖，未明示,待查證
+59621000,Hypertension,A,N,I10,本態性（原發性）高血壓,待查證
+162864005,Body mass index 30+ - obesity,A,N,E66.9,肥胖，未明示,待查證
+127013003,Diabetic renal disease,A,N,E11.21,第二型糖尿病伴有糖尿病腎病變,待查證
+431855005,Chronic kidney disease stage 1,A,N,N18.1,慢性腎臟病第一期,待查證
+431856006,Chronic kidney disease stage 2,A,N,N18.2,慢性腎臟病第二期,待查證
+368581000119106,Neuropathy due to type 2 diabetes mellitus,A,N,E11.40,第二型糖尿病伴有糖尿病神經病變，未明示,待查證
+422034002,Diabetic retinopathy associated with type II diabetes mellitus,A,N,E11.319,第二型糖尿病伴有未明示糖尿病視網膜病變，未伴有黃斑部水腫,待查證
+1551000119108,Nonproliferative diabetic retinopathy due to type 2 diabetes mellitus,A,N,E11.329,第二型糖尿病伴有輕度非增殖性視網膜病變，未伴有黃斑部水腫,待查證
+1501000119109,Proliferative diabetic retinopathy due to type II diabetes mellitus,A,N,E11.359,第二型糖尿病伴有增殖性視網膜病變，未伴有黃斑部水腫,待查證
+97331000119101,Macular edema and retinopathy due to type 2 diabetes mellitus,A,N,E11.311,第二型糖尿病伴有未明示糖尿病視網膜病變，伴有黃斑部水腫,待查證
+90781000119102,Microalbuminuria due to type 2 diabetes mellitus,A,N,E11.29,第二型糖尿病伴有其他糖尿病腎臟併發症,待查證
+55822004,Hyperlipidemia,A,N,E78.5,高血脂症，未明示,待查證
+49436004,Atrial Fibrillation,A,N,I48.91,心房纖維顫動，未明示,待查證
+88805009,Chronic congestive heart failure,A,N,I50.9,心臟衰竭，未明示,待查證
+230690007,Stroke,A,N,I63.9,腦梗塞，未明示,待查證
+26929004,Alzheimer's disease,A,N,G30.9,阿茲海默症，未明示,待查證
+64859006,Osteoporosis,A,N,M81.0,年齡相關性骨質疏鬆症，未伴有病理性骨折,待查證
+80583007,Severe anxiety (panic),B,Y,,,未對照
+19169002,Miscarriage in first trimester,B,Y,,,未對照
+79586000,Tubal pregnancy,B,Y,,,未對照
+35999006,Blighted ovum,B,Y,,,未對照
+156073000,Fetus with unknown complication,B,Y,,,未對照
+72892002,Normal pregnancy,B,Y,,,未對照
+55680006,Drug overdose,B,Y,,,未對照
+73595000,Stress,C,N,,,未對照
+422650009,Social isolation,C,N,,,未對照
+160903007,Full-time employment,C,N,,,未對照
+160904001,Part-time employment,C,N,,,未對照
+423315002,Limited social contact,C,N,,,未對照
+224299000,Received higher education,C,N,,,未對照
+741062008,Not in labor force,C,N,,,未對照
+5251000175109,Received certificate of high school equivalency,C,N,,,未對照
+105531004,Housing unsatisfactory,C,N,,,未對照
+160968000,Risk activity involvement,C,N,,,未對照
+713458007,Lack of access to transportation,C,N,,,未對照
+266934004,Transport problems,C,N,,,未對照
+224295006,Only received primary school education,C,N,,,未對照
+224355006,Served in armed forces,C,N,,,未對照
+73438004,Unemployed,C,N,,,未對照
+32911000,Homeless,C,N,,,未對照
+706893006,Victim of intimate partner abuse,C,Y,,,未對照
+424393004,Reports of violence in the environment,C,Y,,,未對照
+266948004,Has a criminal record,C,Y,,,未對照
+10939881000119104,Unhealthy alcohol drinking behavior,C,Y,,,未對照
+361055000,Misuses drugs,C,Y,,,未對照
+446654005,Refugee,C,Y,,,未對照

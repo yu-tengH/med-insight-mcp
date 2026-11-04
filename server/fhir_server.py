@@ -5,14 +5,23 @@ import httpx
 import inspect
 import json
 import time
+import csv
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from datetime import date
 
+
 FHIR_BASE = "http://localhost:8080/fhir"
 mcp = MCPServer("med-insight") # 建立一個 MCP Server，名字叫 med-insight
 # @mcp.tool()  叫「裝飾器」，作用是告訴 MCP：「下面這個函式是一個工具，開放給 AI 使用」。少了這行，Claude 就看不到這個工具
+
+# 診斷分組與 ICD-10 對照表（只有 status 為「已查證」的 ICD-10 碼會提供給 AI）
+with open(Path(__file__).parent / "condition_map.csv", encoding="utf-8") as f:
+    CONDITION_MAP = {row["snomed_code"]: row for row in csv.DictReader(f)}
+
+GROUP_LABEL = {"A": "糖尿病相關與慢性病", "B": "其他疾病", "C": "社會與心理狀況（非疾病診斷）"}
+
 
 # 紀錄檔放在專案的 logs 資料夾
 LOG_FILE = Path(__file__).parent.parent / "logs" / "tool_calls.jsonl"
@@ -161,39 +170,55 @@ def get_patient(patient_id: str) -> dict:
     }
 
 
+
 @mcp.tool()
 @log_tool_call
-def get_conditions(patient_id: str, active_only: bool = True) -> list[dict]:
-    """查詢病人的診斷紀錄，依發病日期由新到舊排列。
+def get_conditions(patient_id: str, active_only: bool = True, include_social: bool = False) -> dict:
+    """查詢病人的診斷紀錄，依發病日期由新到舊排列，並附 ICD-10 對照與分組。
+
+    分組：糖尿病相關與慢性病、其他疾病、社會與心理狀況（非疾病診斷）。
+    社會與心理狀況預設不列出，只回報筆數；需要時將 include_social 設為 True。
+    標示為 sensitive 的項目屬敏感資訊，摘要時不應主動列出。
+    資料來源未標示主診斷，請勿自行推測。
 
     Args:
         patient_id: FHIR 病人 ID，例如 "5829"
         active_only: 是否只回傳目前仍有效（active）的診斷，預設 True
+        include_social: 是否列出社會與心理狀況，預設 False
     """
     check_patient(patient_id)
-    params = {
-        "subject": f"Patient/{patient_id}",
-        "_sort": "-onset-date",
-        "_count": 200,
-    }
+    params = {"subject": f"Patient/{patient_id}", "_sort": "-onset-date", "_count": 200}
     if active_only:
         params["clinical-status"] = "active"
-    
     entries = fetch_all("Condition", params)
 
-    results = []
+    results, hidden_social = [], 0
     for entry in entries:
         cond = entry["resource"]
         codings = cond.get("code", {}).get("coding", [])
         snomed = next((c for c in codings if c.get("system") == "http://snomed.info/sct"), {})
+        info = CONDITION_MAP.get(snomed.get("code"), {})
+        group = info.get("group", "B")
+        if group == "C" and not include_social:
+            hidden_social += 1
+            continue
+        verified = info.get("status") == "已查證"
         status = cond.get("clinicalStatus", {}).get("coding", [{}])[0]
         results.append({
             "condition": snomed.get("display") or cond.get("code", {}).get("text"),
             "snomed_code": snomed.get("code"),
+            "icd10_code": info.get("icd10_code") if verified else None,
+            "icd10_name": info.get("icd10_name_zh") if verified else "未對照",
+            "group": GROUP_LABEL[group],
+            "sensitive": info.get("sensitive") == "Y",
             "onset_date": cond.get("onsetDateTime"),
             "clinical_status": status.get("code"),
         })
-    return results
+    return {
+        "primary_diagnosis": "資料來源未標示主診斷",
+        "conditions": results,
+        "hidden_social_count": hidden_social,
+    }
 
 
 @mcp.tool()
