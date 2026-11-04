@@ -1,6 +1,8 @@
 '''uv run python -c "from server.fhir_server import get_lab_results; get_lab_results('5829')"
 cat logs/tool_calls.jsonl'''
 from mcp.server.mcpserver import MCPServer
+# ToolError：預期中的失敗，錯誤訊息原文會傳給模型；其他例外會被 SDK 當成程式崩潰，只回傳「Error executing tool」
+from mcp.server.mcpserver.exceptions import ToolError
 import httpx
 import inspect
 import json
@@ -65,14 +67,14 @@ def check_patient(patient_id: str) -> dict:
     """確認病人存在且未封存，回傳病人資料；否則丟出清楚的錯誤訊息。"""
     resp = httpx.get(f"{FHIR_BASE}/Patient/{patient_id}", timeout=30)
     if resp.status_code in (404, 410):
-        raise ValueError(
+        raise ToolError(
             f"查無病人 {patient_id} 的資料。可能是 ID 輸入錯誤，"
             "或病歷已封存，請至院內系統確認。"
         )
     resp.raise_for_status()
     patient = resp.json()
     if patient.get("active") is False:
-        raise ValueError(
+        raise ToolError(
             f"病人 {patient_id} 的病歷已封存，無法查詢。如需調閱，請依院內流程申請解除封存。"
         )
     return patient
@@ -88,7 +90,7 @@ def fetch_all(resource: str, params: dict, max_items: int = 2000) -> list[dict]:
         bundle = resp.json()
         entries.extend(bundle.get("entry", []))
         if len(entries) > max_items:
-            raise ValueError(
+            raise ToolError(
                 f"查詢結果超過 {max_items} 筆，請縮小範圍（例如只查目前有效的項目）。"
             )
         url = next((l["url"] for l in bundle.get("link", []) if l.get("relation") == "next"), None)

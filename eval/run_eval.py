@@ -33,6 +33,7 @@ NO_PROMPT_OUT_DIR = RESULTS_DIR / "v2_no_prompt"
 
 MAX_TOOL_ROUNDS = 10  # 每題最多幾輪工具呼叫
 MAX_TOKENS = 16000
+RESULT_PREVIEW_CHARS = 300  # 結果檔記錄工具回傳內容的前幾個字，方便事後檢查模型收到什麼
 
 
 def mcp_tools_to_anthropic(tools) -> list[dict]:
@@ -127,6 +128,7 @@ async def run_one(
                     "name": block.name,
                     "input": block.input,
                     "is_error": is_error,
+                    "result_preview": text[:RESULT_PREVIEW_CHARS],
                 })
                 results.append({
                     "type": "tool_result",
