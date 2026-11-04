@@ -68,6 +68,23 @@ def check_patient(patient_id: str) -> dict:
         )
     return patient
 
+# 下方主要是因為v1.0.0的MCP Server還沒有提供「自動分頁抓全部」的功能，都只有道200筆，所以自己寫一個函式來做這件事
+def fetch_all(resource: str, params: dict, max_items: int = 2000) -> list[dict]:
+    """跟著 FHIR 的「下一頁」連結把結果全部抓回來；超過上限時明確回報，不默默截斷。"""
+    url, query = f"{FHIR_BASE}/{resource}", params
+    entries = []
+    while url:
+        resp = httpx.get(url, params=query, timeout=60)
+        resp.raise_for_status()
+        bundle = resp.json()
+        entries.extend(bundle.get("entry", []))
+        if len(entries) > max_items:
+            raise ValueError(
+                f"查詢結果超過 {max_items} 筆，請縮小範圍（例如只查目前有效的項目）。"
+            )
+        url = next((l["url"] for l in bundle.get("link", []) if l.get("relation") == "next"), None)
+        query = None  # 下一頁的連結已經包含所有查詢條件
+    return entries
 
 def calc_age(birth_date: str | None, deceased: str | None) -> int | None:
     """依生日計算年齡；已過世的病人算到過世當天。"""
@@ -161,12 +178,11 @@ def get_conditions(patient_id: str, active_only: bool = True) -> list[dict]:
     }
     if active_only:
         params["clinical-status"] = "active"
-    resp = httpx.get(f"{FHIR_BASE}/Condition", params=params, timeout=30)
-    resp.raise_for_status()
-    bundle = resp.json()
+    
+    entries = fetch_all("Condition", params)
 
     results = []
-    for entry in bundle.get("entry", []):
+    for entry in entries:
         cond = entry["resource"]
         codings = cond.get("code", {}).get("coding", [])
         snomed = next((c for c in codings if c.get("system") == "http://snomed.info/sct"), {})
@@ -199,11 +215,9 @@ def get_medications(patient_id: str, active_only: bool = True) -> list[dict]:
     }
     if active_only:
         params["status"] = "active"
-    resp = httpx.get(f"{FHIR_BASE}/MedicationRequest", params=params, timeout=30)
-    resp.raise_for_status()
-    bundle = resp.json()
-
-    entries = bundle.get("entry", [])
+    
+    entries = fetch_all("MedicationRequest", params)
+    
     medications = {
         f"Medication/{e['resource'].get('id')}": e["resource"]
         for e in entries
