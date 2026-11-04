@@ -1,13 +1,15 @@
 """讀取一個 run_eval.py 的結果檔，自動計分並產出報告。
 
 用法：
+    uv run python eval/score.py --results-dir eval/results/v2   # v2：該資料夾最新的結果，Q01–Q20 自動和 v1 比較
     uv run python eval/score.py eval/results/<時間>_<模型>.jsonl
-    uv run python eval/score.py            # 不給檔名就用最新的結果檔
+    uv run python eval/score.py            # 不給參數就用 eval/results/（v1）最新的結果檔
 
-產出：
-    eval/results/summary.md        各類別正確率、一般查詢 vs 邊界案例、一致性、工具與 token 統計
-    eval/results/manual_review.md  manual_rubric、set_recall 題目，以及所有判為需人工的回答
-                                   填好分數後再跑一次（加 --keep-manual），summary.md 會改用人工分數（已存在時不覆蓋，除非加 --overwrite-manual）
+產出（都放在結果資料夾裡，例如 eval/results/v2/）：
+    manual_review.md  manual_rubric、set_recall 題目，以及所有判為需人工的回答；第一次執行時產生，
+                      已存在時不覆蓋（除非加 --overwrite-manual）
+    summary.md        人工分數填完後再執行一次才會產生。Q01–Q20 與 Q21–Q25 分開計分，
+                      Q01–Q20 並與 v1（eval/results/）比較
 
 每次回答的判定只有四種：
     pass    自動比對全部通過
@@ -270,6 +272,10 @@ def apply_human_scores(records: list[dict], questions: dict, reviews: dict) -> l
 
 # ---------- 報告 ----------
 
+# v1 題目（Q01–Q20）分開計分，才能和 v1 結果直接比較；Q21 之後是 v2 新增題
+V1_QUESTION_IDS = {f"Q{i:02d}" for i in range(1, 21)}
+
+
 def ratio(n, d) -> str:
     return f"{n:g} ÷ {d}（{n / d:.0%}）" if d else "—"
 
@@ -279,82 +285,94 @@ def run_marks(rows: list[dict]) -> str:
                     ("✅" if r["final"] == "pass" else "❌") for r in rows)
 
 
-def write_summary(path: Path, source: Path, records: list[dict], questions: dict) -> dict:
-    """產出 summary.md，回傳要印在終端機的重點數字。"""
+def group_by_question(records: list[dict]) -> dict[str, list[dict]]:
     runs_per_q = defaultdict(list)
     for r in records:
         runs_per_q[r["id"]].append(r)
     for rows in runs_per_q.values():
         rows.sort(key=lambda r: r["run"])
-    n_runs = max(len(v) for v in runs_per_q.values())
+    return dict(sorted(runs_per_q.items()))
 
+
+def outcome(r: dict, questions: dict):
+    """一致性比較用：manual_rubric 題比分數，其他題比通過／錯誤。"""
+    return r["points"] if questions[r["id"]]["scoring"] == "manual_rubric" else r["final"]
+
+
+def subset_stats(records: list[dict], questions: dict) -> dict:
+    """一組回答的重點數字（給 Q01–Q20 與 v1 比較、以及終端機輸出用）。"""
+    runs_per_q = group_by_question(records)
+    n_runs = max((len(v) for v in runs_per_q.values()), default=0)
     general = [r for r in records if r["category"] != EDGE_CATEGORY]
     edge = [r for r in records if r["category"] == EDGE_CATEGORY]
-    general_pass = sum(r["final"] == "pass" for r in general)
-    edge_points = sum(r["points"] for r in edge)
-    edge_full = MAX_POINTS * len(edge)
+    tokens = sum(sum(r["usage"].values()) for r in records)
+    return {
+        "general_pass": sum(r["final"] == "pass" for r in general), "general_total": len(general),
+        "edge_points": sum(r["points"] for r in edge), "edge_full": MAX_POINTS * len(edge),
+        "consistent": sum(len(rows) == n_runs and len({outcome(r, questions) for r in rows}) == 1
+                          for rows in runs_per_q.values()),
+        "n_questions": len(runs_per_q), "n_runs": n_runs, "n_records": len(records),
+        "avg_tool_calls": sum(len(r["tool_calls"]) for r in records) / len(records) if records else 0,
+        "avg_tokens": tokens / len(records) if records else 0,
+    }
 
-    lines = ["# 評估摘要", "",
-             f"- 結果檔：`{source.relative_to(ROOT)}`",
-             f"- 人工評分：`eval/results/manual_review.md`",
-             f"- 模型：{', '.join(sorted({r['model'] for r in records}))}",
-             f"- 題數：{len(runs_per_q)}，每題 {n_runs} 次，共 {len(records)} 次回答", "",
-             "**判定規則**：自動判定通過 = 通過；自動錯誤或 API 失敗 = 錯誤。"
-             f"需要人工的回答（manual_rubric 題，以及自動判為 ❓ 的回答）每次滿分 {MAX_POINTS} 分，"
-             f"{MAX_POINTS} 分 = 通過，0 或 1 分 = 錯誤。", ""]
 
-    # 1. 一般查詢
-    lines += ["## 一般查詢", "",
+def score_sections(records: list[dict], questions: dict, h: str = "###") -> list[str]:
+    """一般查詢、人工題、邊界案例、一致性、低於滿分。h 是小節標題的層級。"""
+    runs_per_q = group_by_question(records)
+    st = subset_stats(records, questions)
+    general = [r for r in records if r["category"] != EDGE_CATEGORY]
+    lines = []
+
+    # 一般查詢
+    lines += [f"{h} 一般查詢", "",
               f"category 不是 {EDGE_CATEGORY} 的題目。自動與人工判定合併後：", "",
-              f"**通過 {ratio(general_pass, len(general))}**", "",
-              "| 類別 | 次數 | 自動判定 | 人工判定 | 通過 ÷ 總次數 |", "|---|---|---|---|---|"]
-    for cat in dict.fromkeys(q["category"] for q in questions.values()):
-        rows = [r for r in general if r["category"] == cat]
-        if rows:
-            n_human = sum(r["human"] for r in rows)
-            lines.append(f"| {cat} | {len(rows)} | {len(rows) - n_human} | {n_human} "
-                         f"| {ratio(sum(r['final'] == 'pass' for r in rows), len(rows))} |")
+              f"**通過 {ratio(st['general_pass'], st['general_total'])}**", ""]
+    if general:
+        lines += ["| 類別 | 次數 | 自動判定 | 人工判定 | 通過 ÷ 總次數 |", "|---|---|---|---|---|"]
+        for cat in dict.fromkeys(q["category"] for q in questions.values()):
+            rows = [r for r in general if r["category"] == cat]
+            if rows:
+                n_human = sum(r["human"] for r in rows)
+                lines.append(f"| {cat} | {len(rows)} | {len(rows) - n_human} | {n_human} "
+                             f"| {ratio(sum(r['final'] == 'pass' for r in rows), len(rows))} |")
+        human_qs = [qid for qid, rows in runs_per_q.items()
+                    if questions[qid]["category"] != EDGE_CATEGORY and any(r["human"] for r in rows)]
+        if human_qs:
+            lines += ["", "一般查詢中的人工題：", "",
+                      "| 題目 | 類別 | 計分方式 | 每次得分 | 得分 ÷ 滿分 |", "|---|---|---|---|---|"]
+            for qid in human_qs:
+                rows = [r for r in runs_per_q[qid] if r["human"]]
+                q = questions[qid]
+                lines.append(f"| {qid} | {q['category']} | {q['scoring']} | {run_marks(rows)} "
+                             f"| {ratio(sum(r['points'] for r in rows), MAX_POINTS * len(rows))} |")
 
-    human_qs = [qid for qid, rows in runs_per_q.items()
-                if questions[qid]["category"] != EDGE_CATEGORY and any(r["human"] for r in rows)]
-    lines += ["", "### 一般查詢中的人工題", "",
-              "| 題目 | 類別 | 計分方式 | 每次得分 | 得分 ÷ 滿分 |", "|---|---|---|---|---|"]
-    for qid in human_qs:
-        rows = [r for r in runs_per_q[qid] if r["human"]]
-        q = questions[qid]
-        lines.append(f"| {qid} | {q['category']} | {q['scoring']} | {run_marks(rows)} "
-                     f"| {ratio(sum(r['points'] for r in rows), MAX_POINTS * len(rows))} |")
-
-    # 2. 邊界案例
-    lines += ["", "## 邊界案例", "",
+    # 邊界案例
+    lines += ["", f"{h} 邊界案例", "",
               f"category 是 {EDGE_CATEGORY} 的題目，全部人工評分。", "",
-              f"**得分 {ratio(edge_points, edge_full)}**", "",
-              "| 題目 | 病人 | 每次得分 | 得分 ÷ 滿分 |", "|---|---|---|---|"]
-    for qid, rows in runs_per_q.items():
-        if questions[qid]["category"] == EDGE_CATEGORY:
+              f"**得分 {ratio(st['edge_points'], st['edge_full'])}**", ""]
+    edge_qs = [qid for qid in runs_per_q if questions[qid]["category"] == EDGE_CATEGORY]
+    if edge_qs:
+        lines += ["| 題目 | 病人 | 每次得分 | 得分 ÷ 滿分 |", "|---|---|---|---|"]
+        for qid in edge_qs:
+            rows = runs_per_q[qid]
             lines.append(f"| {qid} | {questions[qid]['patient_id']} | {run_marks(rows)} "
                          f"| {ratio(sum(r['points'] for r in rows), MAX_POINTS * len(rows))} |")
 
-    # 3. 一致性：manual_rubric 題比每次的分數，其他題比每次的通過／錯誤
-    def outcome(r: dict):
-        return r["points"] if questions[r["id"]]["scoring"] == "manual_rubric" else r["final"]
-
-    consistent = [qid for qid, rows in runs_per_q.items()
-                  if len(rows) == n_runs and len({outcome(r) for r in rows}) == 1]
-    lines += ["", "## 一致性", "",
-              f"{n_runs} 次結果完全相同：**{len(consistent)} / {len(runs_per_q)} 題**"
+    # 一致性
+    lines += ["", f"{h} 一致性", "",
+              f"{st['n_runs']} 次結果完全相同：**{st['consistent']} / {st['n_questions']} 題**"
               "（manual_rubric 題比較分數，其他題比較通過／錯誤；3 次都錯也算相同）", "",
               "| 題目 | 類別 | 每次結果 | 一致 |", "|---|---|---|---|"]
     for qid, rows in runs_per_q.items():
-        marks = " ".join(str(outcome(r)) if isinstance(outcome(r), int) else
-                         ("✅" if outcome(r) == "pass" else "❌") for r in rows)
-        lines.append(f"| {qid} | {questions[qid]['category']} | {marks} | {'是' if qid in consistent else '**否**'} |")
+        same = len(rows) == st["n_runs"] and len({outcome(r, questions) for r in rows}) == 1
+        lines.append(f"| {qid} | {questions[qid]['category']} | {run_marks(rows)} | {'是' if same else '**否**'} |")
 
-    # 4. 低於滿分
+    # 低於滿分
     below = [r for r in records
              if (r["points"] is not None and r["points"] < MAX_POINTS)
              or (r["points"] is None and r["final"] == "fail")]
-    lines += ["", "## 低於滿分的回答", ""]
+    lines += ["", f"{h} 低於滿分的回答", ""]
     if below:
         lines += ["| 題目 | 第幾次 | 類別 | 分數 | 備註 |", "|---|---|---|---|---|"]
         for r in below:
@@ -367,50 +385,114 @@ def write_summary(path: Path, source: Path, records: list[dict], questions: dict
             lines.append(f"| {r['id']} | {r['run']} | {r['category']} | {score} | {note.replace('|', '／')} |")
     else:
         lines.append("（無）")
+    return lines
 
-    # 5. 工具與 token
-    total_calls = sum(len(r["tool_calls"]) for r in records)
-    usage = defaultdict(int)
-    for r in records:
-        for k, v in r["usage"].items():
-            usage[k] += v
-    lines += ["", "## 工具與 token", "",
-              f"- 平均工具呼叫次數：{total_calls / len(records):.2f} 次／每次回答",
-              f"- 工具出錯次數：{sum(c['is_error'] for r in records for c in r['tool_calls'])}",
-              f"- 超過 10 輪工具上限：{sum(r['hit_tool_limit'] for r in records)} 次",
-              f"- 平均花費時間：{sum(r['elapsed_seconds'] for r in records) / len(records):.1f} 秒",
-              f"- token 用量：input {usage['input_tokens']:,}、output {usage['output_tokens']:,}、"
-              f"cache read {usage['cache_read_input_tokens']:,}、"
-              f"cache write {usage['cache_creation_input_tokens']:,}",
-              f"- token 合計：{sum(usage.values()):,}"]
+
+def comparison_lines(current: list[dict], baseline: list[dict], baseline_source: Path,
+                     questions: dict) -> list[str]:
+    """Q01–Q20：本次 vs v1。"""
+    now, v1 = subset_stats(current, questions), subset_stats(baseline, questions)
+
+    def row(label, a, b, fmt):
+        return f"| {label} | {fmt(a)} | {fmt(b)} |"
+
+    lines = [f"v1 結果：`{baseline_source.relative_to(ROOT)}`（以目前的 questions.json 與 v1 的人工分數重新計分；"
+             "v2 的 Q14 標準答案已排除社會與心理狀況，v1 的 Q14 也以新標準計分）", "",
+             "| 指標 | v1 | 本次 |", "|---|---|---|",
+             row("一般查詢通過", v1, now, lambda s: ratio(s["general_pass"], s["general_total"])),
+             row("邊界案例得分", v1, now, lambda s: ratio(s["edge_points"], s["edge_full"])),
+             row("一致性（3 次結果相同）", v1, now, lambda s: f"{s['consistent']} / {s['n_questions']} 題"),
+             row("平均工具呼叫", v1, now, lambda s: f"{s['avg_tool_calls']:.2f} 次"),
+             row("平均 token／每次回答", v1, now, lambda s: f"{s['avg_tokens']:,.0f}"),
+             "", "逐題對照（✅ 通過、❌ 錯誤；數字是人工分數）：", "",
+             "| 題目 | 類別 | v1 每次 | 本次每次 | 變化 |", "|---|---|---|---|---|"]
+    v1_by_q, now_by_q = group_by_question(baseline), group_by_question(current)
+    for qid in sorted(set(v1_by_q) | set(now_by_q)):
+        a, b = v1_by_q.get(qid, []), now_by_q.get(qid, [])
+        score = lambda rows: sum(r["points"] if r["points"] is not None else
+                                 (MAX_POINTS if r["final"] == "pass" else 0) for r in rows)
+        change = "" if run_marks(a) == run_marks(b) else ("↑" if score(b) > score(a) else "↓" if score(b) < score(a) else "≠")
+        lines.append(f"| {qid} | {questions[qid]['category']} | {run_marks(a) or '—'} | {run_marks(b) or '—'} | {change} |")
+    return lines
+
+
+def write_summary(path: Path, source: Path, manual_path: Path, records: list[dict], questions: dict,
+                  baseline: tuple[Path, list[dict]] | None, baseline_note: str | None) -> dict:
+    """產出 summary.md，回傳要印在終端機的重點數字。"""
+    runs_per_q = group_by_question(records)
+    old = [r for r in records if r["id"] in V1_QUESTION_IDS]
+    new = [r for r in records if r["id"] not in V1_QUESTION_IDS]
+    prompts = {r.get("system_prompt", "（v1 未記錄）") or "不使用" for r in records}
+
+    lines = ["# 評估摘要", "",
+             f"- 結果檔：`{source.relative_to(ROOT)}`",
+             f"- 人工評分：`{manual_path.relative_to(ROOT)}`",
+             f"- 模型：{', '.join(sorted({r['model'] for r in records}))}",
+             f"- 系統提示詞：{'、'.join(sorted(prompts))}",
+             f"- 題數：{len(runs_per_q)}，共 {len(records)} 次回答", "",
+             "**判定規則**：自動判定通過 = 通過；自動錯誤或 API 失敗 = 錯誤。"
+             f"需要人工的回答（manual_rubric 題，以及自動判為 ❓ 的回答）每次滿分 {MAX_POINTS} 分，"
+             f"{MAX_POINTS} 分 = 通過，0 或 1 分 = 錯誤。", ""]
+
+    lines += ["## Q01–Q20（v1 題目）", ""]
+    if old:
+        if baseline:
+            lines += ["### 與 v1 比較", "", *comparison_lines(old, baseline[1], baseline[0], questions), ""]
+        elif baseline_note:
+            lines += [f"（未與 v1 比較：{baseline_note}）", ""]
+        lines += score_sections(old, questions)
+    else:
+        lines.append("（這份結果沒有 Q01–Q20）")
+
+    lines += ["", "## Q21–Q25（v2 新增）", ""]
+    lines += score_sections(new, questions) if new else ["（這份結果沒有 v2 新增題）"]
+
+    lines += ["", "## 工具與 token", ""]
+    for label, rows in [("全部", records), ("Q01–Q20", old), ("Q21–Q25", new)]:
+        if not rows:
+            continue
+        usage = defaultdict(int)
+        for r in rows:
+            for k, v in r["usage"].items():
+                usage[k] += v
+        lines += [f"**{label}**（{len(rows)} 次回答）", "",
+                  f"- 平均工具呼叫次數：{sum(len(r['tool_calls']) for r in rows) / len(rows):.2f} 次／每次回答",
+                  f"- 工具出錯次數：{sum(c['is_error'] for r in rows for c in r['tool_calls'])}",
+                  f"- 超過 10 輪工具上限：{sum(r['hit_tool_limit'] for r in rows)} 次",
+                  f"- 平均花費時間：{sum(r['elapsed_seconds'] for r in rows) / len(rows):.1f} 秒",
+                  f"- token 用量：input {usage['input_tokens']:,}、output {usage['output_tokens']:,}、"
+                  f"cache read {usage['cache_read_input_tokens']:,}、"
+                  f"cache write {usage['cache_creation_input_tokens']:,}",
+                  f"- token 合計：{sum(usage.values()):,}", ""]
 
     icon = {"pass": "✅", "fail": "❌", "manual": "❓", "error": "💥"}
-    lines += ["", "## 逐次細節", ""]
-    for r in records:
-        q = questions[r["id"]]
-        human = f"，人工 {r['points']} ÷ {MAX_POINTS}" if r["points"] is not None else ""
-        lines.append(f"### {r['id']} run{r['run']} — 自動 {icon[r['verdict']]}{human}，"
-                     f"最終 {'✅ 通過' if r['final'] == 'pass' else '❌ 錯誤'}")
-        lines.append(f"- 工具：{', '.join(c['name'] + json.dumps(c['input'], ensure_ascii=False) for c in r['tool_calls']) or '（未呼叫）'}")
-        if r.get("error"):
-            lines.append(f"- API 錯誤：{r['error']}")
-        if q["scoring"] == "exact_value":
-            lines += [f"- {d}" for d in r["details"]]
-            lines += [f"- 程式不確定的原因：{reason}" for reason in r["manual_reasons"]]
-        elif q["scoring"] == "set_recall":
-            lines.append(f"- 自動比對到 {r['recall']:.0%}")
-            lines += [f"- 程式不確定的原因：{reason}" for reason in r["manual_reasons"]]
-            if r["review"]:
-                lines.append(f"- 是否多答：{r['review']['fabrication'] or '（未填）'}")
-                if q.get("must_not_give_code"):
-                    lines.append(f"- 未對照的診斷是否被給了 ICD-10 碼：{r['review']['uncoded'] or '（未填）'}")
-        if r["review"] and r["review"]["note"]:
-            lines.append(f"- 人工備註：{r['review']['note']}")
-        lines.append("")
+    lines += ["## 逐次細節", ""]
+    for rows in runs_per_q.values():
+        for r in rows:
+            q = questions[r["id"]]
+            human = f"，人工 {r['points']} ÷ {MAX_POINTS}" if r["points"] is not None else ""
+            lines.append(f"### {r['id']} run{r['run']} — 自動 {icon[r['verdict']]}{human}，"
+                         f"最終 {'✅ 通過' if r['final'] == 'pass' else '❌ 錯誤'}")
+            lines.append(f"- 工具：{', '.join(c['name'] + json.dumps(c['input'], ensure_ascii=False) for c in r['tool_calls']) or '（未呼叫）'}")
+            if r.get("error"):
+                lines.append(f"- API 錯誤：{r['error']}")
+            if q["scoring"] == "exact_value":
+                lines += [f"- {d}" for d in r["details"]]
+                lines += [f"- 程式不確定的原因：{reason}" for reason in r["manual_reasons"]]
+            elif q["scoring"] == "set_recall":
+                lines.append(f"- 自動比對到 {r['recall']:.0%}")
+                lines += [f"- 程式不確定的原因：{reason}" for reason in r["manual_reasons"]]
+                if r["review"]:
+                    lines.append(f"- 是否多答：{r['review']['fabrication'] or '（未填）'}")
+                    if q.get("must_not_give_code"):
+                        lines.append(f"- 未對照的診斷是否被給了 ICD-10 碼：{r['review']['uncoded'] or '（未填）'}")
+            if r["review"] and r["review"]["note"]:
+                lines.append(f"- 人工備註：{r['review']['note']}")
+            lines.append("")
 
     path.write_text("\n".join(lines), encoding="utf-8")
-    return {"general_pass": general_pass, "general_total": len(general),
-            "edge_points": edge_points, "edge_full": edge_full}
+    return {"old": subset_stats(old, questions), "new": subset_stats(new, questions),
+            "baseline": subset_stats(baseline[1], questions) if baseline else None}
 
 
 def write_manual_review(path: Path, source: Path, records: list[dict], questions: dict) -> None:
@@ -475,27 +557,17 @@ def review_block(r: dict, notes: list[str] = (), fields: list[str] = ()) -> list
             *[f"- {f}：" for f in [*fields, "分數", "備註"]], ""]
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="評估結果計分")
-    parser.add_argument("result_file", nargs="?", help="結果 JSONL，預設為最新的一個")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--overwrite-manual", action="store_true",
-                       help="manual_review.md 已存在時仍覆蓋（會清掉已填的分數）")
-    group.add_argument("--keep-manual", action="store_true",
-                       help="只讀取 manual_review.md 的人工分數，不修改它（預設行為，明確標示用）")
-    args = parser.parse_args()
+def latest_result(results_dir: Path) -> Path | None:
+    """資料夾裡最新的結果檔（只看這一層，不會抓到子資料夾裡的 v2 結果）。"""
+    files = sorted(results_dir.glob("*.jsonl"))
+    return files[-1] if files else None
 
-    if args.result_file:
-        source = Path(args.result_file).resolve()
-    else:
-        files = sorted(RESULTS_DIR.glob("*.jsonl"))
-        if not files:
-            sys.exit("eval/results/ 裡沒有結果檔")
-        source = files[-1]
 
-    questions = {q["id"]: q for q in json.loads(QUESTIONS_PATH.read_text(encoding="utf-8"))}
+def auto_score(source: Path, questions: dict) -> list[dict]:
     records = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines() if line]
-
+    unknown = sorted({r["id"] for r in records if r["id"] not in questions})
+    if unknown:
+        sys.exit(f"{source.relative_to(ROOT)} 有 questions.json 裡沒有的題目：{'、'.join(unknown)}")
     for r in records:
         q = questions[r["id"]]
         answer = r["final_answer"]
@@ -508,9 +580,52 @@ def main() -> None:
             r["verdict"], r["recall"], r["unmatched"], r["manual_reasons"] = score_set_recall(q, answer)
         else:
             r["verdict"] = "manual"
+    return records
 
-    manual_path = RESULTS_DIR / "manual_review.md"
-    summary_path = RESULTS_DIR / "summary.md"
+
+def load_human_scores(records: list[dict], source: Path, manual_path: Path, questions: dict) -> list[str]:
+    """讀取並套用人工分數，回傳問題清單（空的代表可以產生 summary）。"""
+    if not manual_path.exists():
+        return [f"找不到 {manual_path.relative_to(ROOT)}"]
+    reviews, review_source = parse_manual_review(manual_path)
+    # 評分表對應的結果檔必須和這次計分的是同一個，否則分數對不上
+    if review_source and (ROOT / review_source).resolve() != source:
+        return [f"{manual_path.relative_to(ROOT)} 是 {review_source} 的評分，不是 {source.relative_to(ROOT)}"]
+    return apply_human_scores(records, questions, reviews)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="評估結果計分")
+    parser.add_argument("result_file", nargs="?", type=Path,
+                        help="結果 JSONL；不給就用 --results-dir 裡最新的一個")
+    parser.add_argument("--results-dir", type=Path, default=None,
+                        help="結果資料夾（manual_review.md、summary.md 也放這裡）。"
+                             "預設為 result_file 所在資料夾，或 eval/results/（v1）")
+    parser.add_argument("--baseline-dir", type=Path, default=RESULTS_DIR,
+                        help="Q01–Q20 要比較的 v1 結果資料夾，預設 eval/results/")
+    parser.add_argument("--no-baseline", action="store_true", help="不和 v1 比較")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--overwrite-manual", action="store_true",
+                       help="manual_review.md 已存在時仍覆蓋（會清掉已填的分數）")
+    group.add_argument("--keep-manual", action="store_true",
+                       help="只讀取 manual_review.md 的人工分數，不修改它（預設行為，明確標示用）")
+    args = parser.parse_args()
+
+    if args.result_file:
+        source = args.result_file.resolve()
+        results_dir = (args.results_dir or source.parent).resolve()
+    else:
+        results_dir = (args.results_dir or RESULTS_DIR).resolve()
+        source = latest_result(results_dir)
+        if source is None:
+            sys.exit(f"{results_dir.relative_to(ROOT)}/ 裡沒有結果檔")
+    print(f"結果檔：{source.relative_to(ROOT)}")
+
+    questions = {q["id"]: q for q in json.loads(QUESTIONS_PATH.read_text(encoding="utf-8"))}
+    records = auto_score(source, questions)
+
+    manual_path = results_dir / "manual_review.md"
+    summary_path = results_dir / "summary.md"
     if args.overwrite_manual:
         write_manual_review(manual_path, source, records, questions)
         sys.exit(f"已重新產生 {manual_path.relative_to(ROOT)}（已清空分數），請填完後再執行一次（未產生 summary.md）")
@@ -518,28 +633,43 @@ def main() -> None:
         write_manual_review(manual_path, source, records, questions)
         sys.exit(f"已產出 {manual_path.relative_to(ROOT)}，請填完人工分數後再執行一次（未產生 summary.md）")
 
-    # 評分表對應的結果檔必須和這次計分的是同一個，否則分數對不上
-    reviews, review_source = parse_manual_review(manual_path)
-    if review_source and (ROOT / review_source).resolve() != source:
-        sys.exit(f"manual_review.md 是 {review_source} 的評分，不是 {source.relative_to(ROOT)}，"
-                 "未產生 summary.md")
-
-    missing = apply_human_scores(records, questions, reviews)
-    if missing:
+    problems = load_human_scores(records, source, manual_path, questions)
+    if problems:
         print("以下回答需要人工分數，但沒有填寫或格式不對：")
-        for m in missing:
-            print(f"  - {m}")
-        sys.exit("請補完 manual_review.md 後再執行一次（未產生 summary.md）")
+        for p in problems:
+            print(f"  - {p}")
+        sys.exit(f"請補完 {manual_path.relative_to(ROOT)} 後再執行一次（未產生 summary.md）")
 
-    totals = write_summary(summary_path, source, records, questions)
+    # v1 基準：只取 Q01–Q20，用 v1 自己的 manual_review.md；有任何問題就不比較，但不影響本次計分
+    baseline, baseline_note = None, None
+    baseline_dir = args.baseline_dir.resolve()
+    if args.no_baseline:
+        baseline_note = "指定了 --no-baseline"
+    elif baseline_dir == results_dir:
+        baseline_note = "本次結果就在 v1 資料夾"
+    elif (baseline_source := latest_result(baseline_dir)) is None:
+        baseline_note = f"{baseline_dir.relative_to(ROOT)}/ 裡沒有結果檔"
+    else:
+        base_records = [r for r in auto_score(baseline_source, questions) if r["id"] in V1_QUESTION_IDS]
+        base_problems = load_human_scores(base_records, baseline_source,
+                                          baseline_dir / "manual_review.md", questions)
+        if base_problems:
+            baseline_note = f"v1 人工分數無法使用（{base_problems[0]}）"
+        else:
+            baseline = (baseline_source, base_records)
+    if baseline_note:
+        print(f"⚠️ 未與 v1 比較：{baseline_note}")
+
+    totals = write_summary(summary_path, source, manual_path, records, questions, baseline, baseline_note)
     print(f"已產出 {summary_path.relative_to(ROOT)}")
-    print(f"一般查詢通過率：{totals['general_pass']} / {totals['general_total']}"
-          f"（{totals['general_pass'] / totals['general_total']:.0%}）")
-    print(f"邊界案例得分：{totals['edge_points']} / {totals['edge_full']}"
-          f"（{totals['edge_points'] / totals['edge_full']:.0%}）")
+    for label, st in [("Q01–Q20", totals["old"]), ("v1 Q01–Q20", totals["baseline"]), ("Q21–Q25", totals["new"])]:
+        if st and st["n_records"]:
+            print(f"{label}：一般查詢 {ratio(st['general_pass'], st['general_total'])}，"
+                  f"邊界案例 {ratio(st['edge_points'], st['edge_full'])}")
 
     if args.keep_manual:
         print(f"--keep-manual：未修改 {manual_path.relative_to(ROOT)}")
+
 
 if __name__ == "__main__":
     main()

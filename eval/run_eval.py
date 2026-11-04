@@ -2,10 +2,14 @@
 
 用法：
     uv run python eval/run_eval.py --limit 2 --runs 1     # 測試
-    uv run python eval/run_eval.py                        # 20 題 × 3 次
+    uv run python eval/run_eval.py                        # 全部題目 × 3 次，存到 eval/results/v2/
+    uv run python eval/run_eval.py --no-system-prompt     # 不用系統提示詞，存到 eval/results/v2_no_prompt/
+
+eval/results/ 根目錄放的是 v1 結果，這支程式不會寫進去。
 """
 
 import argparse
+import hashlib
 import json
 import sys
 import time
@@ -23,7 +27,9 @@ ROOT = Path(__file__).resolve().parent.parent
 QUESTIONS_PATH = ROOT / "eval" / "questions.json"
 SYSTEM_PROMPT_PATH = ROOT / "prompts" / "system.md"
 SERVER_PATH = ROOT / "server" / "fhir_server.py"
-RESULTS_DIR = ROOT / "eval" / "results"
+RESULTS_DIR = ROOT / "eval" / "results"  # v1 結果在這一層，不可寫入
+DEFAULT_OUT_DIR = RESULTS_DIR / "v2"
+NO_PROMPT_OUT_DIR = RESULTS_DIR / "v2_no_prompt"
 
 MAX_TOOL_ROUNDS = 10  # 每題最多幾輪工具呼叫
 MAX_TOKENS = 16000
@@ -66,7 +72,7 @@ async def run_one(
     claude: anthropic.AsyncAnthropic,
     mcp_client: Client,
     tools: list[dict],
-    system_prompt: str,
+    system_prompt: str | None,
     model: str,
     question: dict,
     run: int,
@@ -85,13 +91,15 @@ async def run_one(
 
     try:
         while True:
+            # 不使用系統提示詞時，整個 system 參數都不送
+            system_arg = {"system": system_prompt} if system_prompt is not None else {}
             response = await claude.messages.create(
                 model=model,
                 max_tokens=MAX_TOKENS,
-                system=system_prompt,
                 tools=tools,
                 messages=messages,
                 cache_control={"type": "ephemeral"},
+                **system_arg,
             )
             for key in usage:
                 usage[key] += getattr(response.usage, key, 0) or 0
@@ -153,7 +161,15 @@ async def main() -> None:
     parser.add_argument("--model", default="claude-sonnet-5-5")
     parser.add_argument("--runs", type=int, default=3, help="每題跑幾次")
     parser.add_argument("--limit", type=int, default=None, help="只跑前 N 題（測試用）")
+    parser.add_argument("--no-system-prompt", action="store_true",
+                        help=f"不使用系統提示詞，預設存到 {NO_PROMPT_OUT_DIR.relative_to(ROOT)}/")
+    parser.add_argument("--out-dir", type=Path, default=None,
+                        help=f"結果資料夾，預設 {DEFAULT_OUT_DIR.relative_to(ROOT)}/")
     args = parser.parse_args()
+
+    out_dir = (args.out_dir or (NO_PROMPT_OUT_DIR if args.no_system_prompt else DEFAULT_OUT_DIR)).resolve()
+    if out_dir == RESULTS_DIR.resolve():
+        sys.exit(f"{RESULTS_DIR.relative_to(ROOT)}/ 是 v1 結果的資料夾，不可寫入；請指定子資料夾")
 
     load_dotenv(ROOT / ".env")
     claude = anthropic.AsyncAnthropic()
@@ -161,30 +177,41 @@ async def main() -> None:
     questions = json.loads(QUESTIONS_PATH.read_text(encoding="utf-8"))
     if args.limit:
         questions = questions[: args.limit]
-    system_prompt = SYSTEM_PROMPT_PATH.read_text(encoding="utf-8")
+    if args.no_system_prompt:
+        system_prompt = None
+        prompt_meta = {"system_prompt": None, "system_prompt_sha256": None}
+    else:
+        # 每次執行都重新讀檔，用的一定是目前的 prompts/system.md
+        system_prompt = SYSTEM_PROMPT_PATH.read_text(encoding="utf-8")
+        prompt_meta = {"system_prompt": str(SYSTEM_PROMPT_PATH.relative_to(ROOT)),
+                       "system_prompt_sha256": hashlib.sha256(system_prompt.encode("utf-8")).hexdigest()}
 
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    out_path = RESULTS_DIR / f"{stamp}_{args.model}.jsonl"
-    server_log_path = RESULTS_DIR / f"{stamp}_{args.model}_server.log"
+    out_path = out_dir / f"{stamp}_{args.model}.jsonl"
+    server_log_path = out_dir / f"{stamp}_{args.model}_server.log"
 
     # 用目前的 Python（uv 的虛擬環境）以 stdio 啟動 MCP server；server 的 log 另存檔案，不洗版
     params = StdioServerParameters(command=sys.executable, args=[str(SERVER_PATH)], cwd=str(ROOT))
     total = len(questions) * args.runs
     done = 0
 
-    with open(server_log_path, "w", encoding="utf-8") as server_log, \
-            open(out_path, "w", encoding="utf-8") as out:
+    # "x"：檔案已存在就報錯，絕不覆蓋既有結果
+    with open(server_log_path, "x", encoding="utf-8") as server_log, \
+            open(out_path, "x", encoding="utf-8") as out:
         async with Client(stdio_client(params, errlog=server_log)) as mcp_client:
             mcp_tools = (await mcp_client.list_tools()).tools
             tools = mcp_tools_to_anthropic(mcp_tools)
             print(f"MCP 工具：{[t['name'] for t in tools]}")
             print(f"模型：{args.model}，{len(questions)} 題 × {args.runs} 次 = {total} 次")
+            print(f"系統提示詞：{prompt_meta['system_prompt'] or '不使用'}")
+            print(f"結果檔：{out_path.relative_to(ROOT)}")
 
             for q in questions:
                 for run in range(1, args.runs + 1):
                     record = await run_one(claude, mcp_client, tools, system_prompt,
                                            args.model, q, run)
+                    record.update(prompt_meta)
                     out.write(json.dumps(record, ensure_ascii=False) + "\n")
                     out.flush()
                     done += 1
