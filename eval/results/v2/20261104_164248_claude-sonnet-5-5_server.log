@@ -1,0 +1,972 @@
+[11/04/26 16:42:51] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:42:55] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:42:58] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:02] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:06] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:10] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:13] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:18] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:21] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+[11/04/26 16:43:25] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:43:29] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:43:32] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:43:36] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1000 "HTTP/1.1 200 "                
+[11/04/26 16:43:42] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1000 "HTTP/1.1 200 "                
+[11/04/26 16:43:48] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1000 "HTTP/1.1 200 "                
+[11/04/26 16:43:53] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F384921&_sort=-o                
+                             nset-date&_count=200 "HTTP/1.1 200                 
+                             "                                                  
+[11/04/26 16:43:57] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F384921&_sort=-o                
+                             nset-date&_count=200 "HTTP/1.1 200                 
+                             "                                                  
+[11/04/26 16:44:03] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F384921&_sort=-o                
+                             nset-date&_count=200 "HTTP/1.1 200                 
+                             "                                                  
+[11/04/26 16:44:09] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:13] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:17] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:21] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:25] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:29] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:34] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:37] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:41] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:44:45] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=100 "HTTP/1.1 200 "                 
+[11/04/26 16:44:51] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=200 "HTTP/1.1 200 "                 
+[11/04/26 16:44:55] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=200 "HTTP/1.1 200 "                 
+[11/04/26 16:45:00] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=2 "HTTP/1.1 200 "                   
+[11/04/26 16:45:06] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=2 "HTTP/1.1 200 "                   
+[11/04/26 16:45:10] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F246844&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=2 "HTTP/1.1 200 "                   
+[11/04/26 16:45:16] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1000 "HTTP/1.1 200 "                
+[11/04/26 16:45:22] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1000 "HTTP/1.1 200 "                
+[11/04/26 16:45:27] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F384921&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=100 "HTTP/1.1 200 "                 
+[11/04/26 16:45:34] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:45:38] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:45:44] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:45:48] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:45:55] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:46:01] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:46:07] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+[11/04/26 16:46:08] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F384921&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:46:12] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F384921&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:46:16] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             384921 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F384921&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:46:21] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F332743&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:46:31] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F332743&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:46:42] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F332743&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:46:53] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:47:00] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:47:07] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F332743&                
+                             _sort=-authoredon&_count=200&_inclu                
+                             de=MedicationRequest%3Amedication&s                
+                             tatus=active "HTTP/1.1 200 "                       
+[11/04/26 16:47:14] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             335733 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F335733&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:47:19] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             335733 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F335733&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:47:24] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             335733 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F335733&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=3 "HTTP/1.1 200 "                   
+[11/04/26 16:47:28] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             5829 "HTTP/1.1 200 "                               
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F5829&_s                
+                             ort=-authoredon&_count=200&_include                
+                             =MedicationRequest%3Amedication&sta                
+                             tus=active "HTTP/1.1 200 "                         
+[11/04/26 16:47:33] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             5829 "HTTP/1.1 200 "                               
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F5829&_s                
+                             ort=-authoredon&_count=200&_include                
+                             =MedicationRequest%3Amedication&sta                
+                             tus=active "HTTP/1.1 200 "                         
+[11/04/26 16:47:37] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             5829 "HTTP/1.1 200 "                               
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Medicati                
+                             onRequest?subject=Patient%2F5829&_s                
+                             ort=-authoredon&_count=200&_include                
+                             =MedicationRequest%3Amedication&sta                
+                             tus=active "HTTP/1.1 200 "                         
+[11/04/26 16:47:41] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             9999999 "HTTP/1.1 404 "                            
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results:                    
+                             查無病人 9999999 的資料。可能是 ID                 
+                             輸入錯誤，或病歷已封存，請至院內系統               
+                             確認。'                                            
+[11/04/26 16:47:46] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             9999999 "HTTP/1.1 404 "                            
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results:                    
+                             查無病人 9999999 的資料。可能是 ID                 
+                             輸入錯誤，或病歷已封存，請至院內系統               
+                             確認。'                                            
+[11/04/26 16:47:49] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             9999999 "HTTP/1.1 404 "                            
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results:                    
+                             查無病人 9999999 的資料。可能是 ID                 
+                             輸入錯誤，或病歷已封存，請至院內系統               
+                             確認。'                                            
+[11/04/26 16:47:53] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:47:56] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:48:00] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+[11/04/26 16:48:04] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             349151 "HTTP/1.1 200 "                             
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results: 病人               
+                             349151                                             
+                             的病歷已封存，無法查詢。如需調閱，請               
+                             依院內流程申請解除封存。'                          
+[11/04/26 16:48:07] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             349151 "HTTP/1.1 200 "                             
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results: 病人               
+                             349151                                             
+                             的病歷已封存，無法查詢。如需調閱，請               
+                             依院內流程申請解除封存。'                          
+[11/04/26 16:48:10] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             349151 "HTTP/1.1 200 "                             
+                    INFO     Tool 'get_lab_results' failed: 'Error server.py:453
+                             executing tool get_lab_results: 病人               
+                             349151                                             
+                             的病歷已封存，無法查詢。如需調閱，請               
+                             依院內流程申請解除封存。'                          
+[11/04/26 16:48:14] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:48:20] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:48:25] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             332743 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C4548-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2339-0&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C1521-4&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C6299-2&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C38483-4&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C33914-3&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2093-3&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2571-8&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C18262-6&_so                
+                             rt=-date&_count=1 "HTTP/1.1 200 "                  
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C2085-9&_sor                
+                             t=-date&_count=1 "HTTP/1.1 200 "                   
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Observat                
+                             ion?subject=Patient%2F332743&code=h                
+                             ttp%3A%2F%2Floinc.org%7C718-7&_sort                
+                             =-date&_count=1 "HTTP/1.1 200 "                    
+[11/04/26 16:48:32] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:48:37] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:48:43] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:48:47] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+[11/04/26 16:48:48] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:48:53] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
+[11/04/26 16:48:59] INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Patient/                
+                             246844 "HTTP/1.1 200 "                             
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             http://localhost:8080/fhir/Conditio                
+                             n?subject=Patient%2F246844&_sort=-o                
+                             nset-date&_count=200&clinical-statu                
+                             s=active "HTTP/1.1 200 "                           
